@@ -6,61 +6,66 @@
 /*   By: yasinbestrioui <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:26:24 by yasinbest         #+#    #+#             */
-/*   Updated: 2022/02/28 23:18:16 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/01 15:06:35 by ybestrio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
 
-void	ft_spacenum(t_data *data)
+
+//c == command, a == args, o == options, f == file
+
+void	ft_parse(t_data *data, t_input *list, char **envp)
 {
-	int i = 0;
+	
+	
+	data->input = ft_split(data->line, ' ');
 	data->spacenum = 0;
 
-	while (data->line[i] != 0)
+	if (data->input[0] != 0)
 	{
-		if (data->line[i] == ' ')
+/*		int i = 0;
+		while (data->envp)
+		printf("", 
+		)*/		
+		printf("-->%s----", data->input[0]);
+		if (test_command(data->input[0], envp) == 1)
 		{
-			data->spacenum++;
-			while (data->line[i] == ' ')
-				i++;
+			list = fill_list(data->input[0], 'c', list);
 		}
-		i++;
+		else if (open(data->input[0], O_RDONLY) != -1)
+		{
+			list = fill_list(data->input[0], 'f', list);
+		}
+		else 
+		{
+			list = fill_list(data->input[0], 'a', list);
+		}
 	}
-	if (data->line[i - 2] == ' ' && data->spacenum != 0)
-		data->spacenum -= 1;
-	if (data->line[0] == ' ' && data->spacenum != 0)
-		data->spacenum -= 1;
+	ft_free_all(data->input, 0);
+	printf("list = %s\n", list->input);
+	printf("token = %c\n", list->token_id);
 }
 
-void	ft_empty(t_data *data)
-{
-(void)(data);
-
-
-}
-
-void	ft_parse(t_data *data)
-{
-	write(1, "ok in parse\n", 12);
-	sleep(1);
-//	ft_empty(data);
-	ft_spacenum(data);
-	data->spacenum += 1;
-	printf("%d\n", data->spacenum);
-}
-
-int main()
+int main(int argc, char **argv, char **envp)
 {
 	t_data data;
+	t_input *list;
+	//data.envp = envp;
 	
-	write(1,"ok\n", 3);
+	(void)(argc);
+	(void)(argv);
+
+	list = NULL;
 	write(0, "~$ ", 3);
     while ((data.line = get_next_line(0)) != NULL)
 	{
-  		ft_parse(&data);
+  		
+		ft_parse(&data, list, envp);
 
 		write(0, "~$ ", 3);
 		free(data.line);
 	}
-    return (0);
+
+	
+	//	system("leaks minishell");
 }
