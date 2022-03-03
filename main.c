@@ -6,7 +6,7 @@
 /*   By: yasinbestrioui <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:26:24 by yasinbest         #+#    #+#             */
-/*   Updated: 2022/03/03 13:54:08 by ybestrio         ###   ########.fr       */
+/*   Updated: 2022/03/03 19:22:38 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
@@ -32,7 +32,7 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 			data->input = ft_split(data->line, ' ');
 			while (data->input[++i] != 0)
 			{
-				if (test_command(data->input[i], envp) == 1 && data->spacenum == 0)
+				if (test_command(data->input[i], envp) == 1)
 				{
 					list = fill_list(data->input[i], 'c', list);
 					data->spacenum++;
