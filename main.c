@@ -6,44 +6,64 @@
 /*   By: yasinbestrioui <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:26:24 by yasinbest         #+#    #+#             */
-/*   Updated: 2022/03/01 15:06:35 by ybestrio         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:16:44 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
 
 
-//c == command, a == args, o == options, f == file
+//c == command, a == args, o == options, f == file, p == pipe, r=chevrons
 
 void	ft_parse(t_data *data, t_input *list, char **envp)
 {
+	int i = -1;
+	data->cmdfound = 0;
 	
-	
+	if (ft_countquote(data) == 1)
+	{
+		write(2, "Error : quote not closed ?\n", 27);
+		return ;
+	}
 	data->input = ft_split(data->line, ' ');
 	data->spacenum = 0;
 
 	if (data->input[0] != 0)
 	{
-/*		int i = 0;
-		while (data->envp)
-		printf("", 
-		)*/		
-		printf("-->%s----", data->input[0]);
-		if (test_command(data->input[0], envp) == 1)
+		while(data->input[++i] != 0)
 		{
-			list = fill_list(data->input[0], 'c', list);
-		}
-		else if (open(data->input[0], O_RDONLY) != -1)
-		{
-			list = fill_list(data->input[0], 'f', list);
-		}
-		else 
-		{
-			list = fill_list(data->input[0], 'a', list);
+			if (test_command(data->input[i], envp) == 1 && data->spacenum == 0)
+			{
+				list = fill_list(data->input[i], 'c', list);
+				data->spacenum++;
+				printf("list = %s\n", list->input);
+					printf("token = %c\n", list->token_id);
+			}
+			else if (open(data->input[i], O_RDONLY) != -1)
+			{
+				list = fill_list(data->input[i], 'f', list);
+				printf("list = %s\n", list->input);
+					printf("token = %c\n", list->token_id);
+			}
+			else 
+			{
+				list = fill_list(data->input[i], 'a', list);
+				printf("list = %s\n", list->input);
+					printf("token = %c\n", list->token_id);
+			}
 		}
 	}
 	ft_free_all(data->input, 0);
-	printf("list = %s\n", list->input);
-	printf("token = %c\n", list->token_id);
+//	printf("list = %s\n", list->input);
+//	printf("token = %c\n", list->token_id);
+}
+
+void	ft_cleanline(char *str)
+{
+	int i = 0;
+
+	i = strlen(str);
+	str[i-1] = 0;
+
 }
 
 int main(int argc, char **argv, char **envp)
@@ -59,7 +79,7 @@ int main(int argc, char **argv, char **envp)
 	write(0, "~$ ", 3);
     while ((data.line = get_next_line(0)) != NULL)
 	{
-  		
+		ft_cleanline(data.line);
 		ft_parse(&data, list, envp);
 
 		write(0, "~$ ", 3);

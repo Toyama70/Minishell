@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   splitquote.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybestrio <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 14:12:53 by ybestrio          #+#    #+#             */
-/*   Updated: 2022/03/02 17:50:36 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/02 17:55:09 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
 #include "libft.h"
 
-char	**ft_free_all(char **tab, int i)
-{
-
-	while (tab[i] != 0)
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-	return (0);
-}
-
-static int	ft_count_words(const char *str, char c)
+static int	ft_count_element(const char *str, char c)
 	{
 	int	count;
 	int	i;
@@ -47,7 +35,7 @@ static int	ft_count_words(const char *str, char c)
 	return (count);
 }
 
-static char	*ft_copy_str(const char *str, int start, int end)
+static char	*ft_copy_elem(const char *str, int start, int end)
 {
 	char	*word;
 	int		i;
@@ -62,7 +50,7 @@ static char	*ft_copy_str(const char *str, int start, int end)
 	return (word);
 }
 
-static char	**ft_create_tab(char **tab, const char *s, char c)
+static char	**ft_create_tabquote(char **tab, const char *s, char c)
 {
 	int		i;
 	size_t	count;
@@ -77,7 +65,7 @@ static char	**ft_create_tab(char **tab, const char *s, char c)
 			start = i;
 		else if ((s[i] == c || i == (int)ft_strlen((char *)s)) && start >= 0)
 		{
-			tab[count++] = ft_copy_str(s, start, i);
+			tab[count++] = ft_copy_elem(s, start, i);
 			if (!tab[count - 1])
 				return (ft_free_all(tab, count - 1));
 			start = -1;
@@ -88,14 +76,14 @@ static char	**ft_create_tab(char **tab, const char *s, char c)
 	return (tab);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_splitquote(char const *s, char c)
 {
 	char	**tab;
 
 	if (!s)
 		return (0);
-	tab = malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
+	tab = malloc(sizeof(char *) * (ft_count_element(s, c) + 1));
 	if (!tab)
 		return (0);
-	return (ft_create_tab(tab, s, c));
+	return (ft_create_tabquote(tab, s, c));
 }
