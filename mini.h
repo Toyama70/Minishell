@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 09:09:52 by tmartial          #+#    #+#             */
-/*   Updated: 2022/03/02 17:56:41 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/03 13:52:38 by ybestrio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_data {
 	int squote;// 1 -- pair / 0 == unclosed squote
 	int spacenum;
 	int cmdfound;
+	int insquote;
+	int indquote;
 }           t_data;
 
 /* main */
@@ -68,9 +70,9 @@ t_input *fill_list(char *input, char token_id, t_input *list);
 
 
 char	**ft_splitquote(char const *s, char c);
-static char	**ft_create_tabquote(char **tab, const char *s, char c);
-static char	*ft_copy_elem(const char *str, int start, int end);
-static int	ft_count_element(const char *str, char c);
+char	**ft_create_tabquote(char **tab, const char *s, char c);
+char	*ft_copy_elem(const char *str, int start, int end);
+int	ft_count_element(const char *str, char c);
 int	test_command(char *cmd, char **envp);
 char	*access_cmd(char **path, char *cmd);
 char	**path_access(char **envp);

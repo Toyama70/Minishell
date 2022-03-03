@@ -6,14 +6,14 @@
 /*   By: ybestrio <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 14:12:53 by ybestrio          #+#    #+#             */
-/*   Updated: 2022/03/02 17:55:09 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/03 13:52:05 by ybestrio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
 #include "libft.h"
 
-static int	ft_count_element(const char *str, char c)
-	{
+int	ft_count_element(const char *str, char c)
+{
 	int	count;
 	int	i;
 	int	trigger;
@@ -35,7 +35,7 @@ static int	ft_count_element(const char *str, char c)
 	return (count);
 }
 
-static char	*ft_copy_elem(const char *str, int start, int end)
+char	*ft_copy_elem(const char *str, int start, int end)
 {
 	char	*word;
 	int		i;
@@ -50,7 +50,7 @@ static char	*ft_copy_elem(const char *str, int start, int end)
 	return (word);
 }
 
-static char	**ft_create_tabquote(char **tab, const char *s, char c)
+char	**ft_create_tabquote(char **tab, const char *s, char c)
 {
 	int		i;
 	size_t	count;
