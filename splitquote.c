@@ -6,32 +6,49 @@
 /*   By: ybestrio <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 14:12:53 by ybestrio          #+#    #+#             */
-/*   Updated: 2022/03/03 13:52:05 by ybestrio         ###   ########.fr       */
+/*   Updated: 2022/03/04 15:18:15 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
 #include "libft.h"
 
-int	ft_count_element(const char *str, char c)
+int	ft_count_elements(const char *str, char c, t_data *data)
 {
 	int	count;
 	int	i;
 	int	trigger;
+	int status;
+	int back;
 
 	i = 0;
 	count = 0;
 	trigger = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != c && trigger == 0)
+		if (str[i] == '\'')
+		{
+			status = sinquotes(data, i, &back);
+			if (status == 0)
+			{
+				i = back;
+				count++; //gerer les '' vides
+			}
+		}
+		else if (str[i] != c && trigger == 0)
 		{
 			trigger = 1;
 			count++;
 		}
 		else if (str[i] == c)
 			trigger = 0;
-		i++;
+/*		else if (str[i] == '\"')
+		{
+
+
+		}
+*/		i++;
 	}
+	printf("\nelements count = %d\n", count);
 	return (count);
 }
 
@@ -55,16 +72,26 @@ char	**ft_create_tabquote(char **tab, const char *s, char c)
 	int		i;
 	size_t	count;
 	int		start;
+	int		back;
 
 	i = 0;
 	count = 0;
 	start = -1;
+
 	while (i <= (int)ft_strlen((char *)s))
 	{
 		if (s[i] != c && start < 0)
 			start = i;
-		else if ((s[i] == c || i == (int)ft_strlen((char *)s)) && start >= 0)
+		if (s[i] == '\'') //regler les '' vides;
 		{
+			start = i;
+			sinquoteline((char *)s, i, &back);
+			i = back;
+		}
+		else if ((s[i] == c || i == (int)ft_strlen((char *)s) || s[i] == '\'') && start >= 0)
+		{
+			printf("\n i avant tab = %d\n", i);
+			printf("\n start avant tab = %d\n", start);
 			tab[count++] = ft_copy_elem(s, start, i);
 			if (!tab[count - 1])
 				return (ft_free_all(tab, count - 1));
@@ -76,13 +103,13 @@ char	**ft_create_tabquote(char **tab, const char *s, char c)
 	return (tab);
 }
 
-char	**ft_splitquote(char const *s, char c)
+char	**ft_splitquote(char const *s, char c, t_data *data)
 {
 	char	**tab;
 
 	if (!s)
 		return (0);
-	tab = malloc(sizeof(char *) * (ft_count_element(s, c) + 1));
+	tab = malloc(sizeof(char *) * (ft_count_elements(s, c, data) + 1));
 	if (!tab)
 		return (0);
 	return (ft_create_tabquote(tab, s, c));

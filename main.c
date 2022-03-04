@@ -6,7 +6,7 @@
 /*   By: yasinbestrioui <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:26:24 by yasinbest         #+#    #+#             */
-/*   Updated: 2022/03/03 19:22:38 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/04 15:20:32 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
@@ -27,8 +27,10 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 
 	if (data->line != 0)
 	{
-		if (data->dquote == 0 || data->squote == 0)
+		if (data->dquote == 0 && data->squote == 0)
 		{
+			write(1, "\nWHAT\n", 6);
+			
 			data->input = ft_split(data->line, ' ');
 			while (data->input[++i] != 0)
 			{
@@ -54,9 +56,9 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 			}
 		}
 		//temporary content inside else if
-	else if (data->dquote != 0 || data->squote != 0)// il y a une quote donc ameliorer les verifs de quotes ne pas quitter direct	
+	if (data->dquote != 0 || data->squote != 0)// il y a une quote donc ameliorer les verifs de quotes ne pas quitter direct	
 		{
-			data->input = ft_split(data->line, ' ');
+			data->input = ft_splitquote(data->line, ' ', data);
 			while (data->input[++i] != 0)
 			{
 				if (test_command(data->input[i], envp) == 1 && data->spacenum == 0)
@@ -80,8 +82,6 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 				}
 			}
 		}
-	
-	
 	
 	}
 	

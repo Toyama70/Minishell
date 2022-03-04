@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 09:09:52 by tmartial          #+#    #+#             */
-/*   Updated: 2022/03/03 13:52:38 by ybestrio         ###   ########.fr       */
+/*   Updated: 2022/03/04 14:58:27 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,16 @@ char	**ft_free_all(char **tab, int i);
 t_input *fill_list(char *input, char token_id, t_input *list);
 
 
-char	**ft_splitquote(char const *s, char c);
+char	**ft_splitquote(char const *s, char c, t_data *data);
+int sinquotes(t_data *data, int i, int *back);
+int doubquotes(t_data *data, int i, int *back);
 char	**ft_create_tabquote(char **tab, const char *s, char c);
 char	*ft_copy_elem(const char *str, int start, int end);
 int	ft_count_element(const char *str, char c);
 int	test_command(char *cmd, char **envp);
 char	*access_cmd(char **path, char *cmd);
 char	**path_access(char **envp);
+int sinquoteline(char *s, int i, int *back);
 
 /* errors */
 int	ft_countquote(t_data *data);
