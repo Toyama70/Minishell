@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 09:09:52 by tmartial          #+#    #+#             */
-/*   Updated: 2022/03/04 14:58:27 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/06 10:39:04 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef struct s_input
 {
 	char	*input;
 	char    token_id;
+	char	*out;
+	char	*in;
 	struct s_input	*prev;
 	struct s_input	*next;
 }	t_input;
@@ -79,6 +81,7 @@ int	test_command(char *cmd, char **envp);
 char	*access_cmd(char **path, char *cmd);
 char	**path_access(char **envp);
 int sinquoteline(char *s, int i, int *back);
+int doubquoteline(char *s, int i, int *back);
 
 /* errors */
 int	ft_countquote(t_data *data);

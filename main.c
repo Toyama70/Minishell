@@ -6,13 +6,14 @@
 /*   By: yasinbestrioui <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:26:24 by yasinbest         #+#    #+#             */
-/*   Updated: 2022/03/04 15:20:32 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/06 10:35:16 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
 
+//aef'aef aef'
 
-//c == command, a == args, o == options, f == file, p == pipe, r=chevrons
+//c == command, a == args, o == options, f == file, r=chevrons, 
 
 void	ft_parse(t_data *data, t_input *list, char **envp)
 {
@@ -47,7 +48,13 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 					printf("list = %s\n", list->input);
 					printf("token = %c\n", list->token_id);
 				}
-				else 
+				else if (data->input[i][0] == '-')
+				{
+					list = fill_list(data->input[i], 'o', list);
+					printf("list = %s\n", list->input);
+					printf("token = %c\n", list->token_id);
+				}
+				else
 				{
 					list = fill_list(data->input[i], 'a', list);
 					printf("list = %s\n", list->input);
@@ -71,6 +78,12 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 				else if (open(data->input[i], O_RDONLY) != -1)
 				{
 					list = fill_list(data->input[i], 'f', list);
+					printf("list = %s\n", list->input);
+					printf("token = %c\n", list->token_id);
+				}
+				else if (data->input[i][0] == '-')
+				{
+					list = fill_list(data->input[i], 'o', list);
 					printf("list = %s\n", list->input);
 					printf("token = %c\n", list->token_id);
 				}

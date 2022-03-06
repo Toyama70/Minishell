@@ -6,7 +6,7 @@
 /*   By: ybestrio <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 14:12:53 by ybestrio          #+#    #+#             */
-/*   Updated: 2022/03/04 15:18:15 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/05 11:38:10 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
@@ -25,13 +25,22 @@ int	ft_count_elements(const char *str, char c, t_data *data)
 	trigger = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '\'')
+		if (str[i] == '\'' && trigger == 0)
 		{
 			status = sinquotes(data, i, &back);
 			if (status == 0)
 			{
 				i = back;
 				count++; //gerer les '' vides
+			}
+		}
+		if (str[i] == '\"' && trigger == 0)
+		{
+			status = doubquotes(data, i, &back);
+			if (status == 0)
+			{
+				i = back;
+				count++;
 			}
 		}
 		else if (str[i] != c && trigger == 0)
@@ -41,12 +50,7 @@ int	ft_count_elements(const char *str, char c, t_data *data)
 		}
 		else if (str[i] == c)
 			trigger = 0;
-/*		else if (str[i] == '\"')
-		{
-
-
-		}
-*/		i++;
+		i++;
 	}
 	printf("\nelements count = %d\n", count);
 	return (count);
@@ -58,7 +62,7 @@ char	*ft_copy_elem(const char *str, int start, int end)
 	int		i;
 
 	i = 0;
-	word = malloc((sizeof(char) * (end - start + 1)));
+	word = calloc(sizeof(char), (end - start + 1));
 	if (!word)
 		return (0);
 	while (start < end)
@@ -84,11 +88,22 @@ char	**ft_create_tabquote(char **tab, const char *s, char c)
 			start = i;
 		if (s[i] == '\'') //regler les '' vides;
 		{
-			start = i;
+			if (start == -1)
+				start = i;
 			sinquoteline((char *)s, i, &back);
-			i = back;
+			i = back + 1;
 		}
-		else if ((s[i] == c || i == (int)ft_strlen((char *)s) || s[i] == '\'') && start >= 0)
+		if (s[i] == '\"') //regler les '' vides;
+		{
+			if (start == -1)
+			{
+				start = i; // doesn't work with empty ''
+			
+			}	
+			doubquoteline((char *)s, i, &back);
+			i = back +1;
+		}
+		else if ((s[i] == c || i == (int)ft_strlen((char *)s) || s[i] == '\'' || s[i] == '\"') && start >= 0)
 		{
 			printf("\n i avant tab = %d\n", i);
 			printf("\n start avant tab = %d\n", start);
@@ -109,7 +124,7 @@ char	**ft_splitquote(char const *s, char c, t_data *data)
 
 	if (!s)
 		return (0);
-	tab = malloc(sizeof(char *) * (ft_count_elements(s, c, data) + 1));
+	tab = calloc(sizeof(char *), (ft_count_elements(s, c, data) + 1));
 	if (!tab)
 		return (0);
 	return (ft_create_tabquote(tab, s, c));

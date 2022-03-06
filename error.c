@@ -6,10 +6,12 @@
 /*   By: yasinbestrioui <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 15:35:43 by yasinbest         #+#    #+#             */
-/*   Updated: 2022/03/04 15:04:52 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/05 11:20:08 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
+
+// aef'fea' aeg
 
 int sinquoteline(char *s, int i, int *back)
 {
@@ -48,6 +50,24 @@ return 1;
 }
 
 // eafe 'aef aef'
+
+int doubquoteline(char *s, int i, int *back)
+{
+	int end;
+
+	end = strlen(s); // switch to ft_strlen
+	while (s[i] != 0)
+	{
+		i++;
+		if (s[i] == '\"')
+		{
+			*back = i;
+			return 0;
+		}
+	}
+
+return 1;
+}
 
 int doubquotes(t_data *data, int i, int *back)
 {
