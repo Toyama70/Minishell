@@ -6,7 +6,7 @@
 /*   By: yasinbestrioui <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:26:24 by yasinbest         #+#    #+#             */
-/*   Updated: 2022/03/06 13:54:41 by ybestrio         ###   ########.fr       */
+/*   Updated: 2022/03/06 15:36:27 by ybestrio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
@@ -31,8 +31,6 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 	{
 		if (data->dquote == 0 && data->squote == 0)
 		{
-			write(1, "\nWHAT\n", 6);
-			
 			data->input = ft_split(data->line, ' ');
 			while (data->input[++i] != 0)
 			{
@@ -52,6 +50,12 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 				else if (data->input[i][0] == '-')
 				{
 					list = fill_list(data->input[i], 'o', list);
+					printf("list = %s\n", list->input);
+					printf("token = %c\n", list->token_id);
+				}
+				else if (data->input[i][0] == '$')
+				{
+					list = fill_list(data->input[i], 'd', list);
 					printf("list = %s\n", list->input);
 					printf("token = %c\n", list->token_id);
 				}
@@ -98,8 +102,6 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 		}
 	
 	}
-	
-			
 	ft_free_all(data->input, 0);
 }
 

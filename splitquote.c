@@ -6,13 +6,13 @@
 /*   By: ybestrio <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 14:12:53 by ybestrio          #+#    #+#             */
-/*   Updated: 2022/03/06 14:00:33 by ybestrio         ###   ########.fr       */
+/*   Updated: 2022/03/06 15:45:04 by ybestrio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
 #include "libft.h"
 
-int	ft_count_elements(const char *str, char c, t_data *data)
+int	ft_count_elements(const char *str, char c, t_data *data) //trop d elements calcules mais pas un souci trigger non utilise dans quotes mais calloc donc ok
 {
 	int	count;
 	int	i;
@@ -27,6 +27,11 @@ int	ft_count_elements(const char *str, char c, t_data *data)
 	{
 		if (str[i] == '\'' && trigger == 0)
 		{
+			if (str[i + 1] == '\'')
+			{
+				i = i + 2;
+				continue ;
+			}
 			status = sinquotes(data, i, &back);
 			if (status == 0)
 			{
@@ -36,6 +41,11 @@ int	ft_count_elements(const char *str, char c, t_data *data)
 		}
 		if (str[i] == '\"' && trigger == 0)
 		{
+			if (str[i + 1] == '\"')
+			{
+				i = i + 2;
+				continue ;
+			}
 			status = doubquotes(data, i, &back);
 			if (status == 0)
 			{
@@ -52,6 +62,7 @@ int	ft_count_elements(const char *str, char c, t_data *data)
 			trigger = 0;
 		i++;
 	}
+	printf("elemcount = %d \n", count);
 	return (count);
 }
 
@@ -81,12 +92,18 @@ char	**ft_create_tabquote(char **tab, const char *s, char c)
 	count = 0;
 	start = -1;
 
-	while (i <= (int)ft_strlen((char *)s))
+	while (s[i] != 0)
 	{
 		if (s[i] != c && start < 0)
 			start = i;
 		if (s[i] == '\'') //regler les '' vides;
 		{
+			if (s[i + 1] == '\'')
+			{
+				i = i + 2;
+				start = -1;
+				continue ;
+			}
 			if (start == -1)
 				start = i;
 			sinquoteline((char *)s, i, &back);
@@ -94,6 +111,12 @@ char	**ft_create_tabquote(char **tab, const char *s, char c)
 		}
 		if (s[i] == '\"') //regler les '' vides;
 		{
+			if (s[i + 1] == '\"')
+			{
+				i = i + 2;
+				start = -1;
+				continue ;
+			}
 			if (start == -1)
 				start = i;
 			doubquoteline((char *)s, i, &back);
@@ -118,7 +141,7 @@ char	**ft_splitquote(char const *s, char c, t_data *data)
 
 	if (!s)
 		return (0);
-	tab = calloc(sizeof(char *), (ft_count_elements(s, c, data) + 1));
+	tab = calloc(sizeof(char *), (ft_count_elements(s, c, data) + 3));
 
 	if (!tab)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: ybestrio <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 14:12:53 by ybestrio          #+#    #+#             */
-/*   Updated: 2022/03/03 13:52:21 by ybestrio         ###   ########.fr       */
+/*   Updated: 2022/03/06 14:26:50 by ybestrio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
@@ -44,6 +44,7 @@ int	ft_count_words(const char *str, char c)
 			trigger = 0;
 		i++;
 	}
+	//printf("\n elemcount = %d\n", count);
 	return (count);
 }
 
