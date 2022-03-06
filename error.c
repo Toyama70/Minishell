@@ -6,7 +6,7 @@
 /*   By: yasinbestrioui <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 15:35:43 by yasinbest         #+#    #+#             */
-/*   Updated: 2022/03/05 11:20:08 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/06 14:00:21 by ybestrio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
@@ -120,7 +120,6 @@ int	ft_countquote(t_data *data)
 		}
 		
 	}
-	printf("squote in function = %d\n", data->squote);
 	/*
 	if ((data->squote % 2) == 1)
 		return 1;
