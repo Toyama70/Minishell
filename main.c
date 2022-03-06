@@ -6,14 +6,15 @@
 /*   By: yasinbestrioui <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:26:24 by yasinbest         #+#    #+#             */
-/*   Updated: 2022/03/06 10:35:16 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/06 13:27:22 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
 
 //aef'aef aef'
 
-//c == command, a == args, o == options, f == file, r=chevrons, 
+//c == command, a == args, o == options, f == file, r=chevrons, p = "pipe", 
+//d = contient un dollar, e = export avec =
 
 void	ft_parse(t_data *data, t_input *list, char **envp)
 {
