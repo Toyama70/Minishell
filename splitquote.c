@@ -6,13 +6,13 @@
 /*   By: ybestrio <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 14:12:53 by ybestrio          #+#    #+#             */
-/*   Updated: 2022/03/06 15:45:04 by ybestrio         ###   ########.fr       */
+/*   Updated: 2022/03/07 10:09:06 by ybestrio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
 #include "libft.h"
 
-int	ft_count_elements(const char *str, char c, t_data *data) //trop d elements calcules mais pas un souci trigger non utilise dans quotes mais calloc donc ok
+int	ft_count_elements(const char *str, char c, t_data *data) //trigger non utilise dans quotes mais calloc donc ok
 {
 	int	count;
 	int	i;
@@ -87,12 +87,14 @@ char	**ft_create_tabquote(char **tab, const char *s, char c)
 	size_t	count;
 	int		start;
 	int		back;
+	int		end;
 
 	i = 0;
 	count = 0;
 	start = -1;
 
-	while (s[i] != 0)
+	end = strlen(s);
+	while (i <= end) //error is here
 	{
 		if (s[i] != c && start < 0)
 			start = i;

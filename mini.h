@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 09:09:52 by tmartial          #+#    #+#             */
-/*   Updated: 2022/03/06 10:39:04 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/07 12:57:02 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ char	*access_cmd(char **path, char *cmd);
 char	**path_access(char **envp);
 int sinquoteline(char *s, int i, int *back);
 int doubquoteline(char *s, int i, int *back);
+int	ft_export(t_data *data, int i);
 
 /* errors */
 int	ft_countquote(t_data *data);

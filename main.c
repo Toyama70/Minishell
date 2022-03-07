@@ -6,7 +6,7 @@
 /*   By: yasinbestrioui <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:26:24 by yasinbest         #+#    #+#             */
-/*   Updated: 2022/03/06 15:36:27 by ybestrio         ###   ########.fr       */
+/*   Updated: 2022/03/07 12:57:53 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
@@ -37,7 +37,7 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 				if (test_command(data->input[i], envp) == 1)
 				{
 					list = fill_list(data->input[i], 'c', list);
-					data->spacenum++;
+					data->spacenum++; // spacenum sert a compter les commandes
 					printf("list = %s\n", list->input);
 					printf("token = %c\n", list->token_id);
 				}
@@ -53,9 +53,9 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 					printf("list = %s\n", list->input);
 					printf("token = %c\n", list->token_id);
 				}
-				else if (data->input[i][0] == '$')
+				else if (ft_export(data, i) == 1) //creer une fonction
 				{
-					list = fill_list(data->input[i], 'd', list);
+					list = fill_list(data->input[i], 'e', list);
 					printf("list = %s\n", list->input);
 					printf("token = %c\n", list->token_id);
 				}
@@ -89,6 +89,12 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 				else if (data->input[i][0] == '-')
 				{
 					list = fill_list(data->input[i], 'o', list);
+					printf("list = %s\n", list->input);
+					printf("token = %c\n", list->token_id);
+				}
+				else if (ft_export(data, i) == 1) //creer une fonction et ajouter chez Danny
+				{
+					list = fill_list(data->input[i], 'e', list);
 					printf("list = %s\n", list->input);
 					printf("token = %c\n", list->token_id);
 				}
