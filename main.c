@@ -6,7 +6,7 @@
 /*   By: yasinbestrioui <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:26:24 by yasinbest         #+#    #+#             */
-/*   Updated: 2022/03/07 12:57:53 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/10 10:31:00 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
@@ -53,6 +53,12 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 					printf("list = %s\n", list->input);
 					printf("token = %c\n", list->token_id);
 				}
+				else if (data->input[i][0] == '/')
+				{
+					list = fill_list(data->input[i], 'w', list);
+					printf("list = %s\n", list->input);
+					printf("token = %c\n", list->token_id);
+				}
 				else if (ft_export(data, i) == 1) //creer une fonction
 				{
 					list = fill_list(data->input[i], 'e', list);
@@ -89,6 +95,12 @@ void	ft_parse(t_data *data, t_input *list, char **envp)
 				else if (data->input[i][0] == '-')
 				{
 					list = fill_list(data->input[i], 'o', list);
+					printf("list = %s\n", list->input);
+					printf("token = %c\n", list->token_id);
+				}
+				else if (data->input[i][0] == '/')
+				{
+					list = fill_list(data->input[i], 'w', list);
 					printf("list = %s\n", list->input);
 					printf("token = %c\n", list->token_id);
 				}

@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 09:09:52 by tmartial          #+#    #+#             */
-/*   Updated: 2022/03/07 12:57:02 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/10 11:05:41 by yasinbest        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ typedef struct s_data {
 	int cmdfound;
 	int insquote;
 	int indquote;
+	int g_status; //signal
+	pid_t	g_pid;
+	int	g_error;
+	int	g_tester;
+
 }           t_data;
 
 /* main */
