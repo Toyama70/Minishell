@@ -6,7 +6,7 @@
 /*   By: yasinbestrioui <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:26:24 by yasinbest         #+#    #+#             */
-/*   Updated: 2022/03/10 10:31:00 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/14 11:28:14 by ybestrio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "mini.h"
@@ -132,7 +132,60 @@ void	ft_cleanline(char *str)
 
 }
 
-int main(int argc, char **argv, char **envp)
+char	*ft_replace_str(const char *s, size_t start, size_t n, const char *sub)
+{
+	size_t	i;
+	size_t	sl;
+	size_t	l;
+	char	*tmp;
+
+	sl = strlen(sub);
+	l = strlen(s) - n + sl;
+	tmp = malloc(sizeof(char) * (l + 2));
+	if (!tmp)
+		return (NULL);
+	i = -1;
+	while (++i < start)
+		tmp[i] = s[i];
+	i--;
+	while (++i < start + sl)
+		tmp[i] = sub[i - start];
+	i--;
+	while (++i < l)
+		tmp[i] = s[i - sl + n];
+	tmp[i] = 0;
+	return (tmp);
+}
+
+
+
+int ft_readline(t_data *data)
+{
+	int	n;
+
+	n = 0;
+	data->line = readline("minishell>");
+	if (!data->line)
+		exit(1);
+	while (data->line[n])
+	{
+		if (data->line[n] == 9)
+		{
+			data->temp = strdup(data->line);
+			free(data->line);
+			data->line = ft_replace_str(data->temp, n, 1, "    ");
+			free(data->temp);
+			n = 0;
+			continue ;
+		}
+		n++;
+	}
+	return (0);
+
+
+}
+
+int main(int argc, char **argv/*, char **envp*/)
 {
 	t_data data;
 	t_input *list;
@@ -143,6 +196,13 @@ int main(int argc, char **argv, char **envp)
 
 	list = NULL;
 	write(0, "~$ ", 3);
+	while (1)
+	{
+		ft_readline(&data);
+
+
+	}
+	/*
     while ((data.line = get_next_line(0)) != NULL)
 	{
 		ft_cleanline(data.line);
@@ -151,7 +211,7 @@ int main(int argc, char **argv, char **envp)
 		write(0, "~$ ", 3);
 		free(data.line);
 	}
-
+*/
 	
 	//	system("leaks minishell");
 }

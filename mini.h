@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 09:09:52 by tmartial          #+#    #+#             */
-/*   Updated: 2022/03/10 11:05:41 by yasinbest        ###   ########.fr       */
+/*   Updated: 2022/03/14 11:21:04 by ybestrio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <termios.h>
+# include <sys/param.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
+
 
 typedef struct s_input
 {
@@ -47,7 +53,7 @@ typedef struct s_data {
 	pid_t	g_pid;
 	int	g_error;
 	int	g_tester;
-
+	char *temp;
 }           t_data;
 
 /* main */
