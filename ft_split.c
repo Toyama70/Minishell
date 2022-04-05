@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybestrio <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 14:12:53 by ybestrio          #+#    #+#             */
-/*   Updated: 2022/03/06 14:26:50 by ybestrio         ###   ########.fr       */
+/*   Updated: 2022/03/20 10:21:41 by ybestrio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "mini.h"
-#include "libft.h"
 
 char	**ft_free_all(char **tab, int i)
 {
-
 	while (tab[i] != 0)
 	{
 		free(tab[i]);
@@ -44,7 +43,6 @@ int	ft_count_words(const char *str, char c)
 			trigger = 0;
 		i++;
 	}
-	//printf("\n elemcount = %d\n", count);
 	return (count);
 }
 
@@ -87,16 +85,4 @@ char	**ft_create_tab(char **tab, const char *s, char c)
 	}
 	tab[count] = NULL;
 	return (tab);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	char	**tab;
-
-	if (!s)
-		return (0);
-	tab = malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
-	if (!tab)
-		return (0);
-	return (ft_create_tab(tab, s, c));
 }

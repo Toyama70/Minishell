@@ -3,149 +3,119 @@
 /*                                                        :::      ::::::::   */
 /*   splitquote.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybestrio <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 14:12:53 by ybestrio          #+#    #+#             */
-/*   Updated: 2022/03/07 10:09:06 by ybestrio         ###   ########.fr       */
+/*   Updated: 2022/03/20 10:35:06 by ybestrio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "mini.h"
-#include "libft.h"
 
-int	ft_count_elements(const char *str, char c, t_data *data) //trigger non utilise dans quotes mais calloc donc ok
+int	ft_isinquote_now(char *str, int index)
 {
-	int	count;
-	int	i;
-	int	trigger;
-	int status;
-	int back;
+	int		b;
+	int		i;
 
-	i = 0;
-	count = 0;
-	trigger = 0;
-	while (str[i] != '\0')
+	b = 0;
+	i = -1;
+	while (++i <= index && str[i])
 	{
-		if (str[i] == '\'' && trigger == 0)
-		{
-			if (str[i + 1] == '\'')
-			{
-				i = i + 2;
-				continue ;
-			}
-			status = sinquotes(data, i, &back);
-			if (status == 0)
-			{
-				i = back;
-				count++; //gerer les '' vides
-			}
-		}
-		if (str[i] == '\"' && trigger == 0)
-		{
-			if (str[i + 1] == '\"')
-			{
-				i = i + 2;
-				continue ;
-			}
-			status = doubquotes(data, i, &back);
-			if (status == 0)
-			{
-				i = back;
-				count++;
-			}
-		}
-		if (str[i] != c && trigger == 0)
-		{
-			trigger = 1;
-			count++;
-		}
-		if (str[i] == c)
-			trigger = 0;
-		i++;
+		if (b != '"' && str[i] == '\'')
+			while (str[++i] && str[i] != '\'' && i <= index)
+				b = '\'';
+		if (i > index)
+			return (b != 0);
+		b = 0;
+		if (b != '\'' && str[i] == '"')
+			while (str[++i] && str[i] != '"' && i <= index)
+				b = '"';
+		if (i > index)
+			return (b != 0);
 	}
-	printf("elemcount = %d \n", count);
+	return (b != str[i - 1] && (b == '\'' || b == '"'));
+}
+
+static size_t	ft_nextc(char *s, char c, int index)
+{
+	while (1)
+	{
+		while (s[index] && s[index] != c)
+			index++;
+		if (!s[index] || !ft_isinquote_now(s, index))
+			break ;
+		index++;
+	}
+	return (index);
+}
+
+static size_t	ft_getnum(char *s, char c)
+{
+	int		onword;
+	size_t	count;
+	size_t	i;
+
+	count = 0;
+	onword = 1;
+	i = -1;
+	if (*s != c)
+		onword = 0;
+	while (s[++i])
+	{
+		if (onword == 0 && s[i] != c)
+			count++;
+		if (s[i] == c && !ft_isinquote_now(s, i))
+			onword = 0;
+		else
+			onword = 1;
+	}
 	return (count);
 }
 
-char	*ft_copy_elem(const char *str, int start, int end)
+static int	ft_myfrees(char **r, size_t n)
 {
-	char	*word;
-	int		i;
+	size_t	i;
+	int		b;
 
-	i = 0;
-	word = calloc(sizeof(char), (end - start + 1));
-	if (!word)
-		return (0);
-	while (start < end)
-		word[i++] = str[start++];
-	word[i] = '\0';
-	return (word);
+	i = -1;
+	b = 1;
+	while (++i < n)
+		b *= r[i] != 0;
+	if (b)
+		return (1);
+	i = -1;
+	while (++i < n)
+		if (r[i])
+			free(r[i]);
+	free(r);
+	return (0);
 }
 
-char	**ft_create_tabquote(char **tab, const char *s, char c)
+char	**ft_splitquote(char *s, char c)
 {
-	int		i;
-	size_t	count;
-	int		start;
-	int		back;
-	int		end;
-
-	i = 0;
-	count = 0;
-	start = -1;
-
-	end = strlen(s);
-	while (i <= end) //error is here
-	{
-		if (s[i] != c && start < 0)
-			start = i;
-		if (s[i] == '\'') //regler les '' vides;
-		{
-			if (s[i + 1] == '\'')
-			{
-				i = i + 2;
-				start = -1;
-				continue ;
-			}
-			if (start == -1)
-				start = i;
-			sinquoteline((char *)s, i, &back);
-			i = back + 1;
-		}
-		if (s[i] == '\"') //regler les '' vides;
-		{
-			if (s[i + 1] == '\"')
-			{
-				i = i + 2;
-				start = -1;
-				continue ;
-			}
-			if (start == -1)
-				start = i;
-			doubquoteline((char *)s, i, &back);
-			i = back + 1;
-		}
-		if ((s[i] == c || i == (int)ft_strlen((char *)s) || s[i] == '\'' || s[i] == '\"') && start >= 0)
-		{
-			tab[count++] = ft_copy_elem(s, start, i);
-			if (!tab[count - 1])
-				return (ft_free_all(tab, count - 1));
-			start = -1;
-		}
-		i++;
-	}
-	tab[count] = NULL;
-	return (tab);
-}
-
-char	**ft_splitquote(char const *s, char c, t_data *data)
-{
-	char	**tab;
+	char			**r;
+	size_t			i;
+	size_t			j;
+	size_t			n;
+	size_t			n2;
 
 	if (!s)
 		return (0);
-	tab = calloc(sizeof(char *), (ft_count_elements(s, c, data) + 3));
-
-	if (!tab)
+	n2 = ft_getnum(s, c);
+	n = n2;
+	r = malloc((n + 1) * sizeof(char *));
+	if (!r)
 		return (0);
-	return (ft_create_tabquote(tab, s, c));
+	r[n] = 0;
+	i = 0;
+	while (n--)
+	{
+		i = ft_nextnotc(s, c, i);
+		j = ft_nextc(s, c, i);
+		*r++ = ft_substr(s, i, j - i);
+		i += j - i;
+	}
+	if (!ft_myfrees(r - n2, n2))
+		return (0);
+	return (r - n2);
 }

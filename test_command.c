@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   test_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfernand <dfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 21:05:47 by dfernand          #+#    #+#             */
-/*   Updated: 2022/03/01 15:00:46 by ybestrio         ###   ########.fr       */
+/*   Updated: 2022/03/20 10:17:55 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "mini.h"
-
-
-/*free_split est deja utiliser a voir a la suite qd on fera FUUUUUUUUUSION*/
-/*
-void	free_split(char **path)
-{
-	int	i;
-
-	i = 0;
-	while (path[i])
-		free(path[i++]);
-	free(path);
-} // readapter*/
-/***************************************************************************/
 
 char	**path_access(char **envp)
 {
 	char	**ret;
 
 	ret = NULL;
-	while (strncmp("PATH", *envp, 4))// mettre le vrai
+	while (strncmp("PATH", *envp, 4))
 		envp++;
 	if (envp)
 	{
@@ -40,7 +27,6 @@ char	**path_access(char **envp)
 	}
 	return (ret);
 }
-
 
 char	*access_cmd(char **path, char *cmd)
 {
@@ -53,7 +39,6 @@ char	*access_cmd(char **path, char *cmd)
 	{
 		tmp = ft_strjoin(path[i], "/");
 		try = ft_strjoin(tmp, cmd);
-		//free(tmp);
 		if (access(try, 0) == 0)
 			return (try);
 		i++;
@@ -73,7 +58,5 @@ int	test_command(char *cmd, char **envp)
 		ret = 0;
 	else
 		ret = 1;
-//	free_split(path);
-//	free(cmd_exec);
 	return (ret);
 }
